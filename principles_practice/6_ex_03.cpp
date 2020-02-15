@@ -13,15 +13,6 @@ inline void keep_window_open(){
 
 double expression();
 
-//------------------------------------------------------------------------------
-// Define literals
-const char quit='q';
-const char print=';';
-const char prompt='>';
-const char result='=';
-const char number='8';
-
-//------------------------------------------------------------------------------
 class Token{
   public:
     char kind;    // can be +-*/ and '8'(for numbers)
@@ -50,9 +41,9 @@ Token Token_stream::get(){
   char ch;
   cin>>ch;
   switch(ch){
-    case quit:
-    case print:                    //printing stuff
-    case '!':                    //factorial
+    case 'q':
+    case ';': //printing stuff
+    case '!':
     case '(': case ')': case '{': case '}':
     case '+': case '-': case '*': case '/':
       return Token{ch};
@@ -62,7 +53,7 @@ Token Token_stream::get(){
       cin.putback(ch);
       double d;
       cin>>d;
-      return Token{number,d};
+      return Token{'8',d};
     }
     default:
       throw runtime_error("\nBad Token!");
@@ -107,7 +98,7 @@ double primary(){
       }
       return d;
     }
-    case number:{
+    case '8':{
       Token tok = ts.get();
       if (tok.kind == '!'){
         return op.factorial(t.value);
@@ -115,10 +106,6 @@ double primary(){
       ts.putback(tok);
       return t.value;
     }
-    case '-':
-      return -primary();
-    case '+':
-      return primary();
     default:
       throw runtime_error("\nPrimary Expected!\n");
   }
@@ -138,13 +125,6 @@ double term(){
         double d = primary();
         if(d==0) throw runtime_error("\nDivide by zero");
         left /= d;
-        t = ts.get();
-        break;
-      }
-      case '%':{
-        double d = primary();
-        if(d==0) throw runtime_error("\nDivide by zero");
-        left = fmod(left,d);
         t = ts.get();
         break;
       }
@@ -176,27 +156,27 @@ double expression(){
   }
 }
 
-void calculate(){
-  while(cin){
-    cout<<prompt;
-    Token t = ts.get();
-    while(t.kind==print) t=ts.get();
-    if (t.kind==quit){
-      return;
-    }
-    ts.putback(t);
-    cout<<result<<expression()<<endl;
-  }
-}
-
 int main(){
   cout<<"\nWelcome to the Calculator...";
   cout<<"\nEnter the expression to compute:";
   cout<<"\n(Allowed operations are: + - * /)\n--->";
+  double val = 0;
   try{
-    calculate();
+    while(cin){
+      Token t = ts.get();
+      if (t.kind=='q'){
+        break;
+      }
+      if (t.kind==';'){
+        cout<<"="<<val<<"\n";
+        continue;
+      }
+      else{
+        ts.putback(t);
+      }
+      val = expression();
+    }
     keep_window_open();
-    return 0;
   }
   catch(exception& e){
     cout<<"\n"<<e.what();
