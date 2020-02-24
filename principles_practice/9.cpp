@@ -2,7 +2,7 @@
 using namespace std;
 
 enum class Month{
-  jan=3, feb, mar
+  jan=1, feb, mar
 };
 
 int main(){
