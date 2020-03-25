@@ -8,10 +8,12 @@
 */
 
 #include<iostream>
+#include<fstream>
 #include<string>
 #include<vector>
 #include<cmath>
 #include<algorithm>
+#include"Roman_int.h"
 using namespace std;
 inline void keep_window_open(){
   cout<<"\nExiting the program!\n";
@@ -19,12 +21,16 @@ inline void keep_window_open(){
   cin>>ch;
 }
 void error(string err, string s=""){
-	cout<<s<<endl;
+	cerr<<s<<endl;
 	throw runtime_error(err);
 }
 //#include "std_lib_facilities.h"
 //------------------------------------------------------------------------------
+// define input and output streams
+ostream& os = cout;
+istream& is = cin;
 
+//------------------------------------------------------------------------------
 struct Token {
 	char kind;
 	double value;
@@ -82,8 +88,11 @@ const char name = 'a';
 const char sqroot = 's';
 const char power = 'p';
 const char constant = 'c';
+const char from = 'f';
+const char to = 't';
 const string prompt = "> ";
 const string result = "= ";
+
 
 //--- declaration keywords that are input by user for corresponding feature
 const char dec_let = '#';
@@ -93,6 +102,10 @@ const string dec_help_H = "H";
 const string dec_pow = "pow";
 const string dec_sqrt = "sqrt";
 const string dec_const = "const";
+
+//--- command keywords for I/O operations from/to a file
+const string com_from = "from";
+const string com_to = "to";
 
 //--- default variable
 const string k = "k";
@@ -112,7 +125,7 @@ Token Token_stream::get()
 {
 	if (full) { full=false; return buffer; }
 	char ch;
-	while(cin.get(ch)){
+	while(is.get(ch)){
   	switch (ch) {
     case ' ':
       break;
@@ -141,24 +154,39 @@ Token Token_stream::get()
   	case '8':
   	case '9':
   	{
-      cin.unget();
+      is.unget();
   		double val;
-  		cin >> val;
+  		is >> val;
   		return Token(number,val);
   	}
+    case 'I':
+  	case 'V':
+    case 'X':
+  	case 'L':
+  	case 'C':
+  	case 'D':
+  	case 'M':
+  	{
+        is.unget();
+        Roman_int r;
+        is>>r;
+        return Token(number, r.as_int());
+    }
   	case dec_let:
   		return Token(let);
   	default:
   		if (isalpha(ch)) {
   			string s;
   			s += ch;
-  			while(cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')) s+=ch; //err1
-  			cin.unget();
+  			while(is.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')) s+=ch; //err1
+  			is.unget();
   			if (s == dec_quit) return Token(quit);											         //err2
   			if (s == dec_sqrt) return Token(sqroot);
   			if (s == dec_pow) return Token(power);
         if (s == dec_const) return Token(constant);
         if (s == dec_help_h || s == dec_help_H) return Token(help);
+        if (s == com_from) return Token(from);
+        if (s == com_to) return Token(to);
   			return Token(name,s);
   		}
   		error("Bad token");
@@ -175,7 +203,7 @@ void Token_stream::ignore(char c)
 	full = false;
 
 	char ch;
-	while (cin.get(ch))
+	while (is.get(ch))
 		if (ch==c || ch=='\n') return;
 	error("\nBad statement");
 }
@@ -369,7 +397,7 @@ double statement()
 	case name:
 	{
 		char ch;
-    while(cin.get(ch)){
+    while(is.get(ch)){
       switch(ch){
       case ' ':
         continue;
@@ -381,7 +409,7 @@ double statement()
   		}
   		default:
       {
-  			cin.unget();
+  			is.unget();
   			ts.unget(t);
   			return expression();
   		}
@@ -400,14 +428,14 @@ void clean_up_mess()
 }
 
 void displayHelpMenu(){
-  cout<<"\nHelp is on the way!!";
+  os<<"\nHelp is on the way!!";
 }
 
 void calculate()
 {
 	while(true)
   try {
-		cout << prompt;
+		os << prompt;
 		Token t = ts.get();
 		while (t.kind == print) t=ts.get();
 		if (t.kind == quit) return;
@@ -415,8 +443,25 @@ void calculate()
       displayHelpMenu();
       continue;
     }
+    if (t.kind == to){
+      string filename;
+      is>>filename;
+      filebuf fout;
+      fout.open(filename, ios::out);
+      os.rdbuf(&fout);
+      os<<"this went to file?";
+      continue;
+    }
+    if (t.kind == from){
+      string filename;
+      is>>filename;
+      filebuf fin;
+      fin.open(filename, ios::in);
+      is.rdbuf(&fin);
+      continue;
+    }
 		ts.unget(t);
-		cout << result << statement() << endl;
+		os << result << statement() << endl;
 	}
 	catch(runtime_error& e) {
 		clean_up_mess();
@@ -432,12 +477,12 @@ int main()
 	catch (exception& e) {
 		cerr << "exception: " << e.what() << endl;
 		char c;
-		while (cin >>c&& c!=';') ;
+		while (is >>c&& c!=';') ;
 		return 1;
 	}
 	catch (...) {
 		cerr << "exception\n";
 		char c;
-		while (cin>>c && c!=';');
+		while (is>>c && c!=';');
 		return 2;
 	}

@@ -52,7 +52,7 @@ Token Token_stream::get(){
   switch(ch){
     case quit:
     case print:                    //printing stuff
-    case '!':                    //factorial
+    case '!':                      //factorial
     case '(': case ')': case '{': case '}':
     case '+': case '-': case '*': case '/':
       return Token{ch};

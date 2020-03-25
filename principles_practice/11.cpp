@@ -28,7 +28,11 @@ void one(){
   cin.unsetf(ios::oct);
   cout<<"\nEnter numbers with prefixes: ";
   cin>>a>>b>>c>>d;
-  cout<<dec;
+  //cout<<dec;
+  cout<<a<<"\t"<<b<<"\t"<<c<<"\t"<<d<<"\n";
+  cin>>dec; //expecting dec
+  cout<<"\nExpecting dec: (but enter hex oct too :P) ";
+  cin>>a>>b>>c>>d;
   cout<<a<<"\t"<<b<<"\t"<<c<<"\t"<<d<<"\n";
 }
 
@@ -56,7 +60,7 @@ void two(){
 }
 
 int main(){
-  //one();
+  one();
   two();
 
   return 0;
