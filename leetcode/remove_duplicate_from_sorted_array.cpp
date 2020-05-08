@@ -1,5 +1,6 @@
 class Solution {
 public:
+/*
     int removeDuplicates(vector<int>& nums) {
         if(nums.empty()) return 0;
         int res=1;
@@ -15,6 +16,19 @@ public:
         }
         return res;
     }
+*/
+    int removeDuplicates(vector<int>& nums) {
+        if(nums.size() < 2) return nums.size();
+        int i=1, p=0;
+        while(i<nums.size()){
+            if(nums[i] != nums[p]){
+                p++;
+                nums[p] = nums[i];
+            }
+            i++;
+        }
+        return p+1;
+    }
 };
 /* testcases
 [1,1,2]
@@ -23,6 +37,6 @@ public:
 [1,1,1,1,1,1,1,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,8,8,8,8,8]
 [4,4,4,4,4,4,4,4,4,4,4,4]
 [1]
-[1,2,2,2,]
+[1,2,2,2,7]
 [1,1,2,2,2]
 */
