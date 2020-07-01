@@ -23,3 +23,13 @@ public:
         return NULL;
     }
 };
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        if(!root) return root;
+        if(root->val == val) return root;
+        TreeNode* node = searchBST(root->left, val);
+        if(node) return node;
+        return searchBST(root->right, val);
+    }
+};
