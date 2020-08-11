@@ -15,21 +15,16 @@ class Solution {
 public:
     int R,C;
     void dfs(vector<vector<int>>& grid, int r, int c, int t){
-        if(r<0 || c<0 || r>=R || c>=C) return;
         if(grid[r][c] == 0) return;
         if(grid[r][c] == 1) grid[r][c] = t;
         else if(grid[r][c] <= t){
             if(t!=2) return;
         }
         else grid[r][c] = t;
-        dfs(grid, r+1, c, t+1);
-        cout<<"1";
-        dfs(grid, r-1, c, t+1);
-        cout<<"2";
-        dfs(grid, r, c+1, t+1);
-        cout<<"3";
-        dfs(grid, r, c-1, t+1);
-        cout<<"4";
+        if(r+1<R) dfs(grid, r+1, c, t+1);
+        if(r-1>=0) dfs(grid, r-1, c, t+1);
+        if(c+1<C) dfs(grid, r, c+1, t+1);
+        if(c-1>=0) dfs(grid, r, c-1, t+1);
     }
     int orangesRotting(vector<vector<int>>& grid) {
         R = grid.size();
@@ -40,7 +35,6 @@ public:
                 if(grid[i][j]==2) dfs(grid, i, j, 2);
             }
         }
-
         for(int i=0; i<R; ++i){
             for(int j=0; j<C; ++j){
                 if(grid[i][j]==1) return -1;
