@@ -9,9 +9,23 @@ int main(int argc, char **argv)
     argparse::ArgumentParser program("g_isp");
     parseArgs(program, argc, argv);
 
-    int height = std::stoi(program.get(std::string("height"))), width = std::stoi(program.get(std::string("width")));
     std::string file_path = program.get("input_file_path");
     std::string output_file = program.get("output_directory") + "/" + removeExtension(fileName(file_path)) + ".png";
+    std::string config_file_path = program.get("config_file_path");
+
+    // read config
+    Json::Value config = readConfig(config_file_path);
+    int height = config["img"]["height"].asInt();
+    int width = config["img"]["width"].asInt();
+
+    if (auto fn = program.present("--height"))
+    {
+        height = std::stoi(*fn);
+    }
+    if (auto fn = program.present("--width"))
+    {
+        width = std::stoi(*fn);
+    }
 
     cv::Mat img;
 
@@ -33,9 +47,14 @@ int main(int argc, char **argv)
     isp.demosaic(img, img_out, cv::COLOR_BayerRG2BGR);
 
     // Apply white balance
-    isp.whiteBalance(img_out, WBTYPE::PERCENTILE, 0.05);
+    int wbtype = config["wb"]["type"].asInt();
+    double percentile = config["wb"]["percentile"].asDouble();
+    isp.whiteBalance(img_out, wbtype, percentile);
 
     // adjust gammam and brightness
+    double alpha = config["bc"]["alpha"].asDouble();
+    double beta = config["bc"]["beta"].asDouble();
+    double gamma = config["bc"]["gamma"].asDouble();
     isp.brightnessCorrection(img_out, 4.0, -150, 1.7);
 
     // save output image

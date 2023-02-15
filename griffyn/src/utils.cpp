@@ -9,11 +9,12 @@ void parseArgs(argparse::ArgumentParser &program, int argc, char **argv)
         .required()
         .help("specify the output directory.");
     program.add_argument("--height")
-        .required()
         .help("specify the height of image.");
     program.add_argument("--width")
-        .required()
         .help("specify the width of image.");
+    program.add_argument("--config_file_path")
+        .required()
+        .help("specify the config file path.");
     try
     {
         program.parse_args(argc, argv);
@@ -35,4 +36,22 @@ std::string removeExtension(std::string const &filename)
 {
     std::string::size_type const p(filename.find_last_of('.'));
     return p > 0 && p != std::string::npos ? filename.substr(0, p) : filename;
+}
+
+Json::Value readConfig(std::string filepath)
+{
+    Json::Value config;
+    try
+    {
+        std::ifstream fin(filepath);
+        fin >> config;
+        fin.close();
+    }
+    catch (...)
+    {
+        std::cout << "Error in reading config file: " << filepath;
+        exit(0);
+    }
+    std::cout << "Config file read.";
+    return config;
 }

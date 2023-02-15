@@ -1,0 +1,22 @@
+{
+  "img": {
+    "__comment__": "img params",
+    "height": 2160,
+    "width": 3840
+  },
+  "dem": {
+    "__comment__": "demosaicing params",
+    "dem_type": "self"
+  },
+  "wb": {
+    "__comment__": "wb parameters",
+    "type": 0,
+    "percentile": 0.03
+  },
+  "bc": {
+    "__comment__": "brightness correction params",
+    "alpha": 4.0,
+    "beta": -150,
+    "gamma": 2.0
+  }
+}
