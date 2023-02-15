@@ -9,12 +9,14 @@
 
 Demosaicing
 
+1. https://en.wikipedia.org/wiki/Demosaicing
+1. https://en.wikipedia.org/wiki/Bayer_filter
 1. https://en.wikipedia.org/wiki/Raw_image_format#File_contents
-2. https://stackoverflow.com/questions/6539047/raw-image-file-what-format-is-my-data-in
+1. https://stackoverflow.com/questions/6539047/raw-image-file-what-format-is-my-data-in
 
-3. https://stackoverflow.com/questions/33756723/machine-vision-8bit-bayer-rggb-to-rgb-in-open-cv
-4. https://stackoverflow.com/questions/72499553/convert-raw-image-in-bayer-encoding-rggb-and-16-bit-depth-to-rgb-final-image
-5. https://docs.opencv.org/3.4/d8/d01/group__imgproc__color__conversions.html#ga57261f12fccf872a2b2d66daf29d5bd0
+1. https://stackoverflow.com/questions/33756723/machine-vision-8bit-bayer-rggb-to-rgb-in-open-cv
+1. https://stackoverflow.com/questions/72499553/convert-raw-image-in-bayer-encoding-rggb-and-16-bit-depth-to-rgb-final-image
+1. https://docs.opencv.org/3.4/d8/d01/group__imgproc__color__conversions.html#ga57261f12fccf872a2b2d66daf29d5bd0
 
 WB
 

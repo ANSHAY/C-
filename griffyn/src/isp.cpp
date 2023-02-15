@@ -40,7 +40,7 @@ void ISP::scaleImage(cv::Mat &img)
 
 void ISP::demosaic(cv::Mat &img, cv::Mat &img_out, int code)
 {
-    dm.demosaic(img, img_out, code);
+    dm.demosaic(img, img_out);
 }
 
 void ISP::whiteBalance(cv::Mat &img)
