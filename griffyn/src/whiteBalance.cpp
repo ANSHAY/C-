@@ -14,12 +14,43 @@ void WhiteBalance::wbPercentile(cv::Mat &img, double percentile)
 
         channels[i] = ((channels[i] - lowval) * 255 / (highval - lowval));
         // saturate below the low percentile and above the high percentile
-        // channels[i].setTo(lowval, channels[i] < lowval);
         channels[i].setTo(255, channels[i] > 255);
-
-        // scale the channel
-        // normalize(channels[i], channels[i], 0, 255, cv::NORM_MINMAX);
     }
+    cv::merge(channels, img);
+}
+
+void WhiteBalance::wbHistEq(cv::Mat &img)
+{
+    std::vector<cv::Mat> channels(3);
+    cv::split(img, channels);
+    for (int i = 0; i < 3; i++)
+    {
+        cv::equalizeHist(channels[i], channels[i]);
+    }
+    cv::merge(channels, img);
+}
+
+void WhiteBalance::wbNormalSums(cv::Mat &img)
+{
+    std::vector<cv::Mat> channels(3);
+    cv::split(img, channels);
+    cv::Scalar sums = cv::sum(img);
+
+    int maxSum = std::max(sums[0], std::max(sums[1], sums[2]));
+
+    double gainB = (double)maxSum / sums[0];
+    double gainG = (double)maxSum / sums[1];
+    double gainR = (double)maxSum / sums[2];
+
+    double maxGain = std::max(gainB, std::max(gainG, gainR));
+
+    gainB /= maxGain;
+    gainG /= maxGain;
+    gainR /= maxGain;
+
+    channels[0] = channels[0] * gainB;
+    channels[1] = channels[1] * gainG;
+    channels[2] = channels[2] * gainR;
     cv::merge(channels, img);
 }
 
@@ -40,6 +71,12 @@ void WhiteBalance::whiteBalance(cv::Mat &img, int type, double percentile)
         break;
     case WBTYPE::PERCENTILE:
         wbPercentile(img, percentile);
+        return;
+    case WBTYPE::NORMALSUMS:
+        wbNormalSums(img);
+        return;
+    case WBTYPE::HISTEQ:
+        wbHistEq(img);
         return;
     default:
         std::cout << "WARNING: INCORRECT White Balance Algo type!\nUsing GrayWorld instead.";

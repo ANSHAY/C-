@@ -2,6 +2,8 @@
 
 void BrightnessCorrection::gammaCorrection(cv::Mat &img, double gamma)
 {
+    if (abs(gamma) < 0.001)
+        gamma = 0.001;
     double invG = 1 / gamma;
     uint8_t table[256];
     for (auto i = 0; i < 256; i++)
