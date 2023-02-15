@@ -21,6 +21,8 @@ Demosaicing
 WB
 
 1. https://stackoverflow.com/questions/49835662/how-to-use-xphoto-whitebalancer-balancewhite-with-python-and-opencv
+2. https://docs.gimp.org/en/gimp-layer-white-balance.html
+3. https://www.morethantechnical.com/2015/01/14/simplest-color-balance-with-opencv-wcode/
 
 Gamma correction
 

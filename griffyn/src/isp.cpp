@@ -22,7 +22,6 @@ cv::Mat ISP::readRaw(std::string filename, int height, int width, int bayer_form
     imagedata = (uint16_t *)malloc(sizeof(uint16_t) * framesize);
 
     // Read image data and store in buffer.
-    // TODO: check if file exists
     fread(imagedata, 2, framesize, fp);
 
     cv::Mat src = cv::Mat(height, width, CV_16UC1, imagedata).clone();
@@ -43,9 +42,9 @@ void ISP::demosaic(cv::Mat &img, cv::Mat &img_out, int code)
     dm.demosaic(img, img_out);
 }
 
-void ISP::whiteBalance(cv::Mat &img)
+void ISP::whiteBalance(cv::Mat &img, int type, double percentile)
 {
-    wb.whiteBalance(img);
+    wb.whiteBalance(img, type, percentile);
 }
 
 void ISP::brightnessCorrection(cv::Mat &img, double alpha, double beta, double gamma)

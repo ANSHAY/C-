@@ -33,7 +33,7 @@ int main(int argc, char **argv)
     isp.demosaic(img, img_out, cv::COLOR_BayerRG2BGR);
 
     // Apply white balance
-    isp.whiteBalance(img_out);
+    isp.whiteBalance(img_out, WBTYPE::PERCENTILE, 0.05);
 
     // adjust gammam and brightness
     isp.brightnessCorrection(img_out, 4.0, -150, 1.7);
