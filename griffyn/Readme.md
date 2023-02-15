@@ -7,7 +7,7 @@
 
 # References, Literature
 
-Demosiacing
+Demosaicing
 
 1. https://en.wikipedia.org/wiki/Raw_image_format#File_contents
 2. https://stackoverflow.com/questions/6539047/raw-image-file-what-format-is-my-data-in

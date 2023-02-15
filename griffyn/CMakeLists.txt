@@ -13,9 +13,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../bin)
 
 find_package(OpenCV REQUIRED)
 
+MESSAGE (${PROJECT_SOURCE_DIR})
+
 include_directories(/usr/include/
                     ${OpenCV_INCLUDE_DIRS}
-                    ${PROJECT_SOURCE_DIR}/inc/)
+                    ${PROJECT_SOURCE_DIR}/include/)
 
 
 link_libraries(${OpenCV_LINK_LIBS})
