@@ -42,16 +42,16 @@ public:
         return res;
     }
 
-    void preOrderTrav(TreeNode* root, vector<int>& l){
+    void inOrderTrav(TreeNode* root, vector<int>& l){
         if(!root) return;
-        preOrderTrav(root->left, l);
+        inOrderTrav(root->left, l);
         l.push_back(root->val);
-        preOrderTrav(root->right, l);
+        inOrderTrav(root->right, l);
     }
     vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
         vector<int> l1, l2;
-        preOrderTrav(root1, l1);
-        preOrderTrav(root2, l2);
+        inOrderTrav(root1, l1);
+        inOrderTrav(root2, l2);
         return merge(l1, l2);
     }
 };

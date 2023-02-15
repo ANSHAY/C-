@@ -5,7 +5,7 @@ public:
         string res="";
         int sum=0, c=0;
         while(i>=0 || j>=0){
-            sum = carry;
+            sum = c;
             if(i>=0) sum+=(a[i--]-'0');
             if(j>=0) sum+=(b[j--]-'0');
             res.insert(res.begin(), sum%2 + '0');
