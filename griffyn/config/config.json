@@ -11,12 +11,12 @@
   "wb": {
     "__comment__": "wb parameters",
     "type": 0,
-    "percentile": 0.03
+    "percentile": 0.0305
   },
   "bc": {
     "__comment__": "brightness correction params",
-    "alpha": 4.0,
-    "beta": -150,
-    "gamma": 2.0
+    "alpha": 1.0,
+    "beta": 0.0,
+    "gamma": 1.7
   }
 }

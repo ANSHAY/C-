@@ -35,3 +35,4 @@ Gamma correction
 3. Argparse:
    run this if error in downloading -
    `git config --global --add safe.directory /path/to/dir/griffyn/build/_deps/argparse-src`
+4. Jsoncpp

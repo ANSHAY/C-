@@ -55,7 +55,7 @@ int main(int argc, char **argv)
     double alpha = config["bc"]["alpha"].asDouble();
     double beta = config["bc"]["beta"].asDouble();
     double gamma = config["bc"]["gamma"].asDouble();
-    isp.brightnessCorrection(img_out, 4.0, -150, 1.7);
+    isp.brightnessCorrection(img_out, alpha, beta, gamma);
 
     // save output image
     cv::imwrite(output_file, img_out);
